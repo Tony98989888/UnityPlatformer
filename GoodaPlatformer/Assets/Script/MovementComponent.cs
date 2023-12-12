@@ -92,6 +92,9 @@ public class MovementComponent : MonoBehaviour
         {
             m_isWallJumping = true;
             m_rb.velocity = new Vector2(m_wallJumpDirection * m_wallJumpForce.x, m_wallJumpForce.y);
+            m_wallJumpTimer = 0.0f;
+            // Need to reset wall jump timer
+            TTimer.AddTimer(CancelWallJump, m_wallJumpTime + 0.1f);
         }
     }
 
@@ -153,7 +156,9 @@ public class MovementComponent : MonoBehaviour
         {
             m_isWallJumping = false;
             m_wallJumpDirection = -transform.localScale.x;
+            // When player contact wall then player can do wall jump
             m_wallJumpTimer = m_wallJumpTime;
+            
         }else if (m_wallJumpTimer > 0f)
         {
             m_wallJumpTimer -= Time.deltaTime;
